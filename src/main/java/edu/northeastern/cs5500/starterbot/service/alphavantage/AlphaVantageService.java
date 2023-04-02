@@ -1,17 +1,23 @@
 package edu.northeastern.cs5500.starterbot.service.alphavantage;
 
 import com.google.gson.Gson;
+
+import edu.northeastern.cs5500.starterbot.constants.LogMessages;
 import edu.northeastern.cs5500.starterbot.exception.rest.BadRequestException;
 import edu.northeastern.cs5500.starterbot.exception.rest.InternalServerErrorException;
 import edu.northeastern.cs5500.starterbot.exception.rest.NotFoundException;
 import edu.northeastern.cs5500.starterbot.exception.rest.RestException;
 import edu.northeastern.cs5500.starterbot.service.QuoteService;
+import edu.northeastern.cs5500.starterbot.service.BalanceSheetService;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import lombok.SneakyThrows;
@@ -19,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Singleton
 @Slf4j
-public class AlphaVantageService implements QuoteService {
+public class AlphaVantageService implements QuoteService, BalanceSheetService {
     private static final String BASE_URL = "https://www.alphavantage.co/query?";
     private final String apiKey;
 
@@ -84,5 +90,20 @@ public class AlphaVantageService implements QuoteService {
         conn.disconnect();
 
         return val.toString();
+    }
+
+    @Override
+    public List<AlphaVantageBalanceSheet> getBalanceSheet(String symbol) throws RestException, AlphaVantageException {
+        String queryUrl = "function=BALANCE_SHEET&tickers=" + symbol;
+        String response = getRequest(queryUrl);
+        
+        var balanceSheet = new Gson().fromJson(response, AlphaVantageBalanceSheetResponse.class).getFeed();
+        if (balanceSheet == null) {
+            log.error(String.format(LogMessages.EMPTY_RESPONSE, symbol), symbol);
+        }
+
+        System.out.println("In alpha vantage service: " + balanceSheet);
+
+        return balanceSheet;
     }
 }
