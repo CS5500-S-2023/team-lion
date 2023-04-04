@@ -1,17 +1,14 @@
 package edu.northeastern.cs5500.starterbot.command;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import edu.northeastern.cs5500.starterbot.constants.LogMessages;
 import edu.northeastern.cs5500.starterbot.controller.BalanceSheetController;
 import edu.northeastern.cs5500.starterbot.exception.rest.RestException;
-import edu.northeastern.cs5500.starterbot.service.alphavantage.AlphaVantageApi;
 import edu.northeastern.cs5500.starterbot.service.alphavantage.AlphaVantageBalanceSheet;
 import edu.northeastern.cs5500.starterbot.service.alphavantage.AlphaVantageException;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -21,7 +18,7 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 @Singleton
 @Slf4j
 public class BalanceSheetCommand implements SlashCommandHandler {
-    
+
     @Inject BalanceSheetController balanceSheetController;
 
     @Inject
@@ -37,10 +34,12 @@ public class BalanceSheetCommand implements SlashCommandHandler {
     @Nonnull
     public CommandData getCommandData() {
         return Commands.slash(getName(), "Ask the bot to fetch the balance sheet")
-        .addOption(OptionType.STRING, "ticker", "The bot will return the balance sheet", true);
+                .addOption(
+                        OptionType.STRING, "ticker", "The bot will return the balance sheet", true);
     }
 
-    public List<AlphaVantageBalanceSheet> getBalanceSheet(String ticker) throws RestException, AlphaVantageException {
+    public List<AlphaVantageBalanceSheet> getBalanceSheet(String ticker)
+            throws RestException, AlphaVantageException {
         return balanceSheetController.getBalanceSheet(ticker);
     }
 
@@ -56,7 +55,7 @@ public class BalanceSheetCommand implements SlashCommandHandler {
 
         List<AlphaVantageBalanceSheet> balanceSheets = null;
         try {
-            balanceSheets = getBalanceSheet(ticker); 
+            balanceSheets = getBalanceSheet(ticker);
         } catch (RestException | AlphaVantageException exp) {
             log.error(String.format(LogMessages.ERROR_ALPHAVANTAGE_API, exp.getMessage()), exp);
             event.reply(LogMessages.ERROR_ALPHAVANTAGE_API_REPLY).queue();
@@ -69,8 +68,5 @@ public class BalanceSheetCommand implements SlashCommandHandler {
         }
 
         log.info("Final balanceSheets: " + balanceSheets);
-
-
     }
-    
 }

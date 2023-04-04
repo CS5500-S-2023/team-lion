@@ -1,9 +1,7 @@
 package edu.northeastern.cs5500.starterbot.service.alphavantage;
 
-import java.util.List;
-
 import com.google.gson.annotations.SerializedName;
-
+import java.util.List;
 import lombok.Data;
 
 @Data
@@ -14,5 +12,4 @@ public class AlphaVantageBalanceSheetResponse {
 
     @SerializedName("annualReports")
     private final List<AlphaVantageBalanceSheet> feed;
-    
 }
