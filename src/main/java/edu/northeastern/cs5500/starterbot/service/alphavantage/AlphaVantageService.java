@@ -92,7 +92,8 @@ public class AlphaVantageService implements QuoteService, BalanceSheetService {
     @Override
     public List<AlphaVantageBalanceSheet> getBalanceSheet(String symbol)
             throws RestException, AlphaVantageException {
-        String queryUrl = "function=BALANCE_SHEET&tickers=" + symbol;
+        log.info(symbol);
+        String queryUrl = "function=BALANCE_SHEET&symbol=" + symbol;
         String response = getRequest(queryUrl);
 
         var balanceSheet =
@@ -100,8 +101,6 @@ public class AlphaVantageService implements QuoteService, BalanceSheetService {
         if (balanceSheet == null) {
             log.error(String.format(LogMessages.EMPTY_RESPONSE, symbol), symbol);
         }
-
-        System.out.println("In alpha vantage service: " + balanceSheet);
 
         return balanceSheet;
     }
