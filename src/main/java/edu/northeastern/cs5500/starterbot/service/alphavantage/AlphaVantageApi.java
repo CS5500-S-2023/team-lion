@@ -10,5 +10,5 @@ public interface AlphaVantageApi {
     List<AlphaVantageNewsFeed> getNewsSentiment(String symbol, String fromTime)
             throws AlphaVantageException;
 
-    AlphaVantageBalanceSheet getBalanceSheet(String symbol) throws AlphaVantageException;
+    List<AlphaVantageBalanceSheet> getBalanceSheet(String symbol) throws AlphaVantageException;
 }

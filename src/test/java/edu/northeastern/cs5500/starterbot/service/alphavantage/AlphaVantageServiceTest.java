@@ -74,4 +74,30 @@ class AlphaVantageServiceTest {
                 getAlphaVantageService().getNewsSentiment(EXAMPLE_INVALID_SYMBOL, fromTime);
         assertThat(newsFeeds).isNull();
     }
+
+    @Test
+    void testGetBalanceSheet() throws RestException, AlphaVantageException {
+        final String EXAMPLE_SYMBOL = "AAPL";
+
+        assertThat(getAlphaVantageService()).isNotNull();
+
+        List<AlphaVantageBalanceSheet> balanceSheets =
+                getAlphaVantageService().getBalanceSheet(EXAMPLE_SYMBOL);
+
+        assertThat(balanceSheets).isNotNull();
+        assertTrue(balanceSheets.size() > 0);
+        assertThat(balanceSheets.get(0).getFiscalDateEnding()).isNotNull();
+    }
+
+    @Test
+    void testGetBalanceSheetNonExistent() throws RestException, AlphaVantageException {
+        final String EXAMPLE_SYMBOL = "INVALID_TICKER_SYMBOL";
+
+        assertThat(getAlphaVantageService()).isNotNull();
+
+        List<AlphaVantageBalanceSheet> balanceSheets =
+                getAlphaVantageService().getBalanceSheet(EXAMPLE_SYMBOL);
+
+        assertThat(balanceSheets).isNull();
+    }
 }
