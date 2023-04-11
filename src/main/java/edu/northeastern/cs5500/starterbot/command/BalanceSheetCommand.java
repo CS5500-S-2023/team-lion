@@ -2,10 +2,9 @@ package edu.northeastern.cs5500.starterbot.command;
 
 import edu.northeastern.cs5500.starterbot.constants.LogMessages;
 import edu.northeastern.cs5500.starterbot.controller.BalanceSheetController;
+import edu.northeastern.cs5500.starterbot.exception.AlphaVantageException;
 import edu.northeastern.cs5500.starterbot.exception.rest.RestException;
 import edu.northeastern.cs5500.starterbot.service.alphavantage.AlphaVantageBalanceSheet;
-import edu.northeastern.cs5500.starterbot.service.alphavantage.AlphaVantageException;
-
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;

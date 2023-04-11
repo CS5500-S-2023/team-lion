@@ -12,6 +12,11 @@ public class ServiceModule {
     }
 
     @Provides
+    public NewsFeedService provideNewsFeedService(AlphaVantageService service) {
+        return service;
+    }
+
+    @Provides
     public BalanceSheetService provideBalanceSheetService(AlphaVantageService service) {
         return service;
     }

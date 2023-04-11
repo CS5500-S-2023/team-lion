@@ -52,6 +52,12 @@ public class CommandModule {
 
     @Provides
     @IntoSet
+    public SlashCommandHandler provideNewsCommand(NewsCommand newsCommand) {
+        return newsCommand;
+    }
+
+    @Provides
+    @IntoSet
     public SlashCommandHandler provideBalanceSheetCommand(BalanceSheetCommand balanceSheetCommand) {
         return balanceSheetCommand;
     }
