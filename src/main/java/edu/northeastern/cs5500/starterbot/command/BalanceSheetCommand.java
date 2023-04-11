@@ -5,6 +5,8 @@ import edu.northeastern.cs5500.starterbot.controller.BalanceSheetController;
 import edu.northeastern.cs5500.starterbot.exception.rest.RestException;
 import edu.northeastern.cs5500.starterbot.service.alphavantage.AlphaVantageBalanceSheet;
 import edu.northeastern.cs5500.starterbot.service.alphavantage.AlphaVantageException;
+
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nonnull;
@@ -21,6 +23,8 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 @Singleton
 @Slf4j
 public class BalanceSheetCommand implements SlashCommandHandler {
+
+    private static final int MAX_NUMBER_OF_BALANCE_SHEET_RESULTS = 3;
 
     @Inject BalanceSheetController balanceSheetController;
 
@@ -70,8 +74,6 @@ public class BalanceSheetCommand implements SlashCommandHandler {
             return;
         }
 
-        log.info("Final balanceSheets: " + balanceSheets);
-
         List<MessageEmbed> balanceSheetEmbeds = renderBalanceSheets(balanceSheets);
         for (MessageEmbed embed : balanceSheetEmbeds) {
             event.getChannel().sendMessageEmbeds(embed).queue();
@@ -80,7 +82,8 @@ public class BalanceSheetCommand implements SlashCommandHandler {
 
     public List<MessageEmbed> renderBalanceSheets(List<AlphaVantageBalanceSheet> balanceSheets) {
         List<MessageEmbed> messageEmbeds = new ArrayList<>();
-        for (AlphaVantageBalanceSheet alphaVantageBalanceSheet : balanceSheets) {
+        for (int i = 0; i < MAX_NUMBER_OF_BALANCE_SHEET_RESULTS; i++) {
+            AlphaVantageBalanceSheet alphaVantageBalanceSheet = balanceSheets.get(i);
             messageEmbeds.add(renderBalanceSheet(alphaVantageBalanceSheet));
         }
         return messageEmbeds;
@@ -89,13 +92,15 @@ public class BalanceSheetCommand implements SlashCommandHandler {
     public MessageEmbed renderBalanceSheet(AlphaVantageBalanceSheet balanceSheet) {
         EmbedBuilder embed = new EmbedBuilder();
 
+        embed.setTitle("Fiscal Date Ending: " + balanceSheet.getFiscalDateEnding());
         embed.addField("Reported Currency", balanceSheet.getReportedCurrency(), false);
-        embed.addField("Fiscal Date Ending", balanceSheet.getFiscalDateEnding(), false);
         embed.addField("Total Assets", balanceSheet.getTotalAssets(), false);
         embed.addField("Investments", balanceSheet.getInvestments(), false);
         embed.addField("Total Current Assets", balanceSheet.getTotalCurrentAssets(), false);
         embed.addField("Current Debt", balanceSheet.getCurrentDebt(), false);
         embed.addField("Total Liabilities", balanceSheet.getTotalLiabilities(), false);
+
+        embed.setColor(Color.GREEN);
 
         return embed.build();
     }
