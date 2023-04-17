@@ -41,7 +41,7 @@ public class DownVoteCommandTest {
 
     @Test
     void testCreateUpdateDocument() {
-        Document testDocument = new Document("$dec", new Document("votes", 1));
+        Document testDocument = new Document("$inc", new Document("votes", -1));
         assertEquals(new DownVoteCommand().createUpDateDocument(), testDocument);
     }
 }

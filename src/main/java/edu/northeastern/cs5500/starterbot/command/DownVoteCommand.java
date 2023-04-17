@@ -32,7 +32,7 @@ public class DownVoteCommand implements SlashCommandHandler {
     @Nonnull
     @Override
     public CommandData getCommandData() {
-        return Commands.slash(getName(), "Ask the bot to upvote for a particular ticker")
+        return Commands.slash(getName(), "Ask the bot to downvote for a particular ticker")
                 .addOption(
                         OptionType.STRING,
                         "ticker",
@@ -66,7 +66,7 @@ public class DownVoteCommand implements SlashCommandHandler {
 
             Document updateDoc = createUpDateDocument();
             collection.updateOne(query, updateDoc);
-            event.reply("You have successfully upvoted for the ticker " + ticker + ".").queue();
+            event.reply("You have successfully downvoted for the ticker " + ticker + ".").queue();
 
         } else {
             event.reply(LogMessages.INVALID_TICKER).queue();
@@ -83,6 +83,6 @@ public class DownVoteCommand implements SlashCommandHandler {
     }
 
     public Document createUpDateDocument() {
-        return new Document("$dec", new Document("votes", 1));
+        return new Document("$inc", new Document("votes", -1));
     }
 }
