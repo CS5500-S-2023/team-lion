@@ -132,7 +132,6 @@ public class AlphaVantageService implements QuoteService, NewsFeedService, Balan
     @Override
     public List<AlphaVantageBalanceSheet> getBalanceSheet(String symbol)
             throws RestException, AlphaVantageException {
-        log.info(symbol);
         String queryUrl = "function=BALANCE_SHEET&symbol=" + symbol;
         String response = getRequest(queryUrl);
 

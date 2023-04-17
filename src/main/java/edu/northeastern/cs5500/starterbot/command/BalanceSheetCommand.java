@@ -52,12 +52,11 @@ public class BalanceSheetCommand implements SlashCommandHandler {
     @Override
     public void onSlashCommandInteraction(@Nonnull SlashCommandInteractionEvent event) {
         log.info("event: /balance");
+
         var option = event.getOption("ticker");
-
-        log.info("Ticker from balanceSheetCommand.java is: " + option);
-
         String ticker = option.getAsString();
-        log.info("event: /balance ticker:" + ticker);
+
+        log.info("Ticker from balanceSheetCommand.java is: " + ticker);
 
         List<AlphaVantageBalanceSheet> balanceSheets = null;
         try {
