@@ -55,4 +55,10 @@ public class CommandModule {
     public SlashCommandHandler provideNewsCommand(NewsCommand newsCommand) {
         return newsCommand;
     }
+
+    @Provides
+    @IntoSet
+    public SlashCommandHandler provideDownVoteCommand(DownVoteCommand downVoteCommand) {
+        return downVoteCommand;
+    }
 }
