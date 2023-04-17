@@ -92,11 +92,11 @@ public class BalanceSheetCommand implements SlashCommandHandler {
         EmbedBuilder embed = new EmbedBuilder();
 
         embed.setTitle("Fiscal Date Ending: " + balanceSheet.getFiscalDateEnding());
-        embed.addField("Reported Currency", balanceSheet.getReportedCurrency(), false);
-        embed.addField("Total Assets", balanceSheet.getTotalAssets(), false);
-        embed.addField("Investments", balanceSheet.getInvestments(), false);
+        embed.addField("Reported Currency", balanceSheet.getReportedCurrency(), true);
+        embed.addField("Total Assets", balanceSheet.getTotalAssets(), true);
         embed.addField("Total Current Assets", balanceSheet.getTotalCurrentAssets(), false);
-        embed.addField("Current Debt", balanceSheet.getCurrentDebt(), false);
+        embed.addField("Investments", balanceSheet.getInvestments(), true);
+        embed.addField("Current Debt", balanceSheet.getCurrentDebt(), true);
         embed.addField("Total Liabilities", balanceSheet.getTotalLiabilities(), false);
 
         embed.setColor(Color.GREEN);
