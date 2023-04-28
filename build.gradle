@@ -63,6 +63,9 @@ dependencies {
 
     // GSON to parse JSON files
     implementation 'com.google.code.gson:gson:_'
+
+    // Generate charts for ticker symbols
+    implementation 'org.jfree:jfreechart:1.5.3'
 }
 
 application {
